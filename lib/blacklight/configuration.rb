@@ -120,6 +120,8 @@ module Blacklight
       title_field: nil,
       # solr field to use to render format-specific partials
       display_type_field: nil,
+      # the "field access" key to use to look up the document display fields
+      document_fields_key: :index_fields,
       # partials to render for each document(see #render_document_partials)
       partials: [],
       document_actions: NestedOpenStructWithHashAccess.new(ToolConfig),
@@ -144,6 +146,8 @@ module Blacklight
       document_presenter_class: nil,
       document_component: Blacklight::DocumentComponent,
       display_type_field: nil,
+      # the "field access" key to use to look up the document display fields
+      document_fields_key: :show_fields,
       # Default route parameters for 'show' requests.
       # Set this to a hash with additional arguments to merge into the route,
       # or set `controller: :current` to route to the current controller.
@@ -520,6 +524,7 @@ module Blacklight
     ##
     # Return a list of fields for the index display that should be used for the
     # provided document.  This respects any configuration made using for_display_type
+    # @deprecated
     def index_fields_for(display_types)
       Array(display_types).inject(index_fields) do |fields, display_type|
         fields.merge(for_display_type(display_type).index_fields)
@@ -529,6 +534,7 @@ module Blacklight
     ##
     # Return a list of fields for the show page that should be used for the
     # provided document.  This respects any configuration made using for_display_type
+    # @deprecated
     def show_fields_for(display_types)
       Array(display_types).inject(show_fields) do |fields, display_type|
         fields.merge(for_display_type(display_type).show_fields)
